@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Caminhões - Sistema Pipa</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome para Ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Estilos personalizados para marca d'água -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-light">
+
+    <!-- Barra Superior com Logo Personalizada -->
+    <nav class="navbar navbar-dark bg-primary px-4 py-3 shadow-sm d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center">
+            <!-- A sua logo personalizada -->
+            <img src="./images/avatar.jpg" alt="Logo" style="height: 42px; width: auto;" class="me-3 bg-white p-1 rounded">
+            <span class="text-white fw-bold fs-5 d-none d-lg-inline">Gestão de Caminhão Pipa - Prefeitura Municipal de Jaramataia - AL</span>
+        </div>
+        
+        <!-- Links rápidos de navegação entre módulos -->
+        <div class="d-none d-md-flex align-items-center gap-3">
+            <a href="index.html" class="text-white text-decoration-none small fw-semibold"><i class="fas fa-home me-1"></i> Início</a>
+            <a href="caminhoes.html" class="text-white text-decoration-none small fw-semibold text-warning"><i class="fas fa-truck me-1"></i> Caminhões</a>
+            <a href="motoristas.html" class="text-white text-decoration-none small fw-semibold"><i class="fas fa-id-card me-1"></i> Motoristas</a>
+            <a href="beneficiarios.html" class="text-white text-decoration-none small fw-semibold"><i class="fas fa-users me-1"></i> Beneficiários</a>
+            <a href="carregamentos.html" class="text-white text-decoration-none small fw-semibold"><i class="fas fa-water me-1"></i> Carregamento</a>
+            <a href="entregas.html" class="text-white text-decoration-none small fw-semibold"><i class="fas fa-hand-holding-water me-1"></i> Entregas</a>
+        </div>
+
+        <div class="d-flex align-items-center">
+            <a href="index.html" class="btn btn-outline-light btn-sm rounded-pill px-3 shadow-sm me-2"><i class="fas fa-arrow-left me-1"></i> Voltar ao Painel</a>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        
+        <!-- Cabeçalho do Módulo (Tema Azul) -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="fw-bold text-primary"><i class="fas fa-truck me-2"></i>Gestão de Caminhões</h2>
+        </div>
+
+        <!-- Formulário de Cadastro (Adicionado o campo de foto) -->
+        <div class="card shadow-sm mb-4 border-0">
+            <div class="card-header bg-white py-3 border-bottom">
+                <h5 class="mb-0 text-primary fw-bold"><i class="fas fa-plus-circle me-2"></i>Cadastrar Novo Caminhão</h5>
+            </div>
+            <div class="card-body">
+                <form id="formCaminhao" enctype="multipart/form-data">
+                    <div class="row g-2 align-items-end">
+                        <div class="col-12 col-sm-6 col-md-2">
+                            <label class="form-label small fw-semibold">Placa</label>
+                            <input type="text" class="form-control form-control-sm" id="placa" required placeholder="ABC-1234">
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-2">
+                            <label class="form-label small fw-semibold">Modelo</label>
+                            <input type="text" class="form-control form-control-sm" id="modelo" placeholder="Ex: Mercedes">
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-2">
+                            <label class="form-label small fw-semibold">RENAVAM</label>
+                            <input type="text" class="form-control form-control-sm" id="renavam" placeholder="Nº RENAVAM">
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-2">
+                            <label class="form-label small fw-semibold">Venc. IPVA</label>
+                            <input type="date" class="form-control form-control-sm" id="vencimento_ipva">
+                        </div>
+                        <!-- Capacidade menor (col-md-1) -->
+                        <div class="col-12 col-sm-6 col-md-1">
+                            <label class="form-label small fw-semibold">Capac.(L)</label>
+                            <input type="number" class="form-control form-control-sm" id="capacidade_litros" required placeholder="10000">
+                        </div>
+                        <!-- Foto com espaço compensado (col-md-3) -->
+                        <div class="col-12 col-sm-6 col-md-3">
+                            <label class="form-label small fw-semibold">Foto</label>
+                            <input type="file" class="form-control form-control-sm" id="fotoCaminhao" accept="image/*">
+                        </div>
+                
+                        <div class="col-12 mt-3 text-end">
+                            <button type="submit" class="btn btn-primary btn-sm shadow-sm fw-bold px-4 py-2">
+                                <i class="fas fa-save me-1"></i> Salvar
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- Tabela de Listagem -->
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-header bg-white py-3 border-bottom">
+                <h5 class="mb-0 text-primary fw-bold"><i class="fas fa-list me-2"></i>Caminhões Cadastrados</h5>
+            </div>
+            <div class="card-body p-0">
+                <!-- table-responsive garante o scroll horizontal em ecrãs pequenos -->
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0 text-nowrap">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="ps-3">ID</th>
+                                <th>Foto</th>
+                                <th>Placa</th>
+                                <th>Modelo</th>
+                                <th>Venc. IPVA</th>
+                                <th>Status</th>
+                                <th style="width: 85px;">Capac.(L)</th>                                
+                                <th class="text-center pe-3">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelaCaminhoes">
+                            <!-- Preenchido via JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- Aviso visual subtil para o utilizador deslizar no telemóvel -->
+            <div class="card-footer bg-white text-center text-muted small py-2 d-md-none">
+                <i class="fas fa-arrows-alt-h"></i> Deslize para o lado para ver o Status e as Ações
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Scripts externos -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/global.js"></script>
+    <script src="js/caminhoes.js"></script>
+</body>
+</html>

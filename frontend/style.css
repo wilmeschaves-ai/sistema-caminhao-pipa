@@ -1,0 +1,29 @@
+/* Configuração da Marca d'Água no Canto Inferior Direito */
+body {
+    position: relative;
+    background-color: #f4f6f9;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    bottom: 20px;          /* Distância da margem inferior */
+    right: 20px;           /* Distância da margem direita */
+    width: 180px;          /* Tamanho adequado para o canto */
+    height: 180px;
+    background-image: url('./images/jaramataia1.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    opacity: 0.70;         /* Opacidade ideal para destacar na medida certa */
+    pointer-events: none;  /* Impede interferência nos cliques */
+    z-index: 0;            /* Fica no fundo */
+}
+
+/* Garante que o conteúdo fique visível acima de tudo 
+nav, .container, .modal {
+    position: relative;
+    z-index: 2;
+}
+*/
+ 

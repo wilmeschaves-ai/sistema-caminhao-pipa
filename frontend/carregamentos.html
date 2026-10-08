@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Carregamentos - Controle de Pipa</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome para Ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Estilos personalizados (Marca d'água) -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-light">
+
+    <!-- Navbar / Cabeçalho Unificado -->
+    <nav class="navbar navbar-dark bg-primary px-4 py-3 shadow-sm d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center">
+            <!-- A sua logo personalizada -->
+            <img src="./images/avatar.jpg" alt="Logo" style="height: 42px; width: auto;" class="me-3 bg-white p-1 rounded">
+            <span class="text-white fw-bold fs-5 d-none d-lg-inline">Gestão de Caminhão Pipa - Prefeitura Municipal de Jaramataia - AL</span>
+        </div>
+        
+        <!-- Links rápidos de navegação entre módulos -->
+        <div class="d-none d-md-flex align-items-center gap-3">
+            <a href="index.html" class="text-white text-decoration-none small fw-semibold"><i class="fas fa-home me-1"></i> Início</a>
+            <a href="caminhoes.html" class="text-white text-decoration-none small fw-semibold"><i class="fas fa-truck me-1"></i> Caminhões</a>
+            <a href="motoristas.html" class="text-white text-decoration-none small fw-semibold"><i class="fas fa-id-card me-1"></i> Motoristas</a>
+            <a href="beneficiarios.html" class="text-white text-decoration-none small fw-semibold"><i class="fas fa-users me-1"></i> Beneficiários</a>
+            <a href="carregamentos.html" class="text-white text-decoration-none small fw-semibold text-info"><i class="fas fa-water me-1"></i> Carregamento</a>
+            <a href="entregas.html" class="text-white text-decoration-none small fw-semibold"><i class="fas fa-hand-holding-water me-1"></i> Entregas</a>
+            <a href="relatorios.html" class="text-white text-decoration-none small fw-semibold text-warning"><i class="fas fa-file-alt me-1"></i> Relatórios</a>
+
+            <a href="dashboards.html" class="text-white text-decoration-none small fw-semibold text-warning"><i class="fas fa-chart-pie me-1"></i> Dashboards</a>
+
+
+        </div>
+
+        <div class="d-flex align-items-center">
+            <a href="index.html" class="btn btn-outline-light btn-sm rounded-pill px-3 shadow-sm"><i class="fas fa-arrow-left me-1"></i> Painel</a>
+        </div>
+    </nav>
+
+    <!-- Conteúdo Principal -->
+    <div class="container my-4">
+        
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2 class="fw-bold text-dark"><i class="fas fa-water text-info me-2"></i>Gestão de Carregamentos</h2>
+                <p class="text-muted mb-0">Registe o abastecimento dos caminhões nas fontes de água do município.</p>
+            </div>
+            <button class="btn btn-info text-white fw-semibold shadow-sm rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#modalCarregamento">
+                <i class="fas fa-plus me-1"></i> Novo Carregamento
+            </button>
+        </div>
+
+        <!-- Tabela de Carregamentos -->
+        <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="ps-3">Caminhão</th>
+                                <th>Motorista</th>
+                                <th>Fonte / Poço</th>
+                                <th>Litros Carregados</th>
+                                <th>Data e Hora</th>
+                                <th class="text-end pe-3">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelaCarregamentos">
+                            <!-- Os dados serão inseridos dinamicamente via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Cadastro / Novo Carregamento -->
+    <div class="modal fade" id="modalCarregamento" tabindex="-1" aria-labelledby="modalCarregamentoLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content rounded-4 border-0 shadow">
+                <form id="formCarregamento">
+                    <div class="modal-header bg-info text-white">
+                        <h5 class="modal-title fw-bold" id="modalCarregamentoLabel"><i class="fas fa-tint me-2"></i>Registar Carregamento</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                    </div>
+                    <div class="modal-body p-4">
+                        <div class="row g-3">
+                            
+                            <div class="col-12">
+                                <label for="caminhao_id" class="form-label fw-semibold">Caminhão *</label>
+                                <select class="form-select rounded-pill px-3" id="caminhao_id" required>
+                                    <option value="">A carregar caminhões...</option>
+                                </select>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="motorista_id" class="form-label fw-semibold">Motorista *</label>
+                                <select class="form-select rounded-pill px-3" id="motorista_id" required>
+                                    <option value="">A carregar motoristas...</option>
+                                </select>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="fonte_agua" class="form-label fw-semibold">Fonte de Água / Poço *</label>
+                                <input type="text" class="form-control rounded-pill px-3" id="fonte_agua" required placeholder="Ex: Poço Sede / Barragem X">
+                            </div>
+
+                            <div class="col-12">
+                                <label for="litros_carregados" class="form-label fw-semibold">Litros Carregados *</label>
+                                <input type="number" class="form-control rounded-pill px-3" id="litros_carregados" required placeholder="Ex: 10000">
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer bg-light">
+                        <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-info text-white fw-semibold rounded-pill px-4 shadow-sm"><i class="fas fa-save me-1"></i> Registar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Script do Módulo -->
+    <script src="js/global.js"></script>
+    <script src="js/carregamentos.js"></script>
+    <!-- Script para fechar o modal automaticamente após o envio bem-sucedido -->
+    <script>
+        const formReg = document.getElementById('formCarregamento');
+        if (formReg) {
+            formReg.addEventListener('submit', () => {
+                const modalEl = document.getElementById('modalCarregamento');
+                const modalInstance = bootstrap.Modal.getInstance(modalEl);
+                if (modalInstance) modalInstance.hide();
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatórios - Controle de Pipa</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome para Ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-light">
+
+    <!-- Navbar / Cabeçalho Unificado -->
+    <nav class="navbar navbar-dark bg-primary px-4 py-3 shadow-sm d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center">
+            <img src="./images/avatar.jpg" alt="Logo" style="height: 42px; width: auto;" class="me-3 bg-white p-1 rounded">
+            <span class="text-white fw-bold fs-5 d-none d-lg-inline">Gestão de Caminhão Pipa - Prefeitura Municipal de Jaramataia - AL</span>
+        </div>
+        
+        <div class="d-none d-md-flex align-items-center gap-3">
+            <a href="index.html" class="text-white text-decoration-none small fw-semibold"><i class="fas fa-home me-1"></i> Início</a>
+            <a href="caminhoes.html" class="text-white text-decoration-none small fw-semibold"><i class="fas fa-truck me-1"></i> Caminhões</a>
+            <a href="motoristas.html" class="text-white text-decoration-none small fw-semibold"><i class="fas fa-id-card me-1"></i> Motoristas</a>
+            <a href="beneficiarios.html" class="text-white text-decoration-none small fw-semibold"><i class="fas fa-users me-1"></i> Beneficiários</a>
+            <a href="carregamentos.html" class="text-white text-decoration-none small fw-semibold"><i class="fas fa-water me-1"></i> Carregamento</a>
+            <a href="entregas.html" class="text-white text-decoration-none small fw-semibold"><i class="fas fa-hand-holding-water me-1"></i> Entregas</a>
+            <a href="relatorios.html" class="text-white text-decoration-none small fw-semibold text-warning"><i class="fas fa-file-alt me-1"></i> Relatórios</a>
+            <a href="dashboards.html" class="text-white text-decoration-none small fw-semibold text-warning"><i class="fas fa-file-alt me-1"></i> Dashboards</a>
+
+        </div>
+
+        <div class="d-flex align-items-center">
+            <a href="index.html" class="btn btn-outline-light btn-sm rounded-pill px-3 shadow-sm"><i class="fas fa-arrow-left me-1"></i> Painel</a>
+        </div>
+    </nav>
+
+    <!-- Conteúdo Principal -->
+    <div class="container my-4">
+        
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2 class="fw-bold text-dark"><i class="fas fa-file-alt me-2" style="color: #146c94;"></i>Central de Relatórios</h2>
+                <p class="text-muted mb-0">Filtre e exporte dados consolidados de distribuição de água por período.</p>
+            </div>
+        </div>
+
+        <!-- Filtros de Relatório -->
+
+        <div class="mb-3">
+            <label for="tipo_relatorio" class="form-label fw-bold">Tipo de Relatório</label>
+            <select id="tipo_relatorio" class="form-select" onchange="mudarTipoRelatorio()">
+                <option value="geral">Entregas Detalhadas</option>
+                <option value="beneficiario">Litros por Beneficiário</option>
+                <option value="caminhao">Desempenho por Caminhão</option>
+            </select>
+        </div>
+
+
+        <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+            <h5 class="fw-bold text-secondary mb-3"><i class="fas fa-filter me-2"></i>Filtros de Pesquisa</h5>
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <label class="form-label fw-semibold small">Data Inicial</label>
+                    <input type="date" class="form-control rounded-pill px-3" id="data_inicio">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label fw-semibold small">Data Final</label>
+                    <input type="date" class="form-control rounded-pill px-3" id="data_fim">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label fw-semibold small">Caminhão</label>
+                    <select class="form-select rounded-pill px-3" id="filtro_caminhao">
+                        <option value="">Todos os Caminhões</option>
+                    </select>
+                </div>
+                <div class="col-md-3 d-flex align-items-end">
+                    <button class="btn text-white w-100 rounded-pill fw-semibold shadow-sm" style="background-color: #146c94;" onclick="obterRelatorio()">
+                        <i class="fas fa-search me-1"></i> Gerar Relatório
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Opções de Exportação / Resultados -->
+        <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+            <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                <h5 class="fw-bold text-dark m-0"><i class="fas fa-list-ul me-2 text-muted"></i>Resultados da Consulta</h5>
+                <div>
+                    <button class="btn btn-outline-danger btn-sm rounded-pill px-3 me-2 fw-semibold" onclick="exportarPDF()"><i class="fas fa-file-pdf me-1"></i> Exportar PDF</button>
+                    <button class="btn btn-outline-success btn-sm rounded-pill px-3 fw-semibold" onclick="exportarExcel()"><i class="fas fa-file-excel me-1"></i> Exportar Excel</button>
+                </div> 
+ 
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="ps-3">Data</th>
+                                <th>Caminhão / Motorista</th>
+                                <th>Beneficiário</th>
+                                <th>Litros Entregues</th>
+                                <th class="text-end pe-3">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelaRelatorio">
+                            <tr>
+                                <td colspan="5" class="text-center py-4 text-muted">Selecione os filtros acima e clique em "Gerar Relatório".</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const baseURL = 'http://localhost:3000';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            carregarCaminhoes();
+        });
+    
+        // Função para buscar e preencher o select de camiões
+        async function carregarCaminhoes() {
+            try {
+                const response = await fetch(`${baseURL}/api/caminhoes`);
+                if (!response.ok) throw new Error('Erro ao carregar camiões');
+    
+                const caminhoes = await response.json();
+                const select = document.getElementById('filtro_caminhao');
+                if (!select) return;
+    
+                select.innerHTML = '<option value="">Todos os Camiões</option>';
+                caminhoes.forEach(c => {
+                    const option = document.createElement('option');
+                    option.value = c.id || c.caminhao_id;
+                    option.textContent = `${c.modelo || 'Camião'} - ${c.placa || ''}`;
+                    select.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Erro ao buscar camiões:', error);
+            }
+        }
+
+        // Função executada ao mudar o tipo de relatório no <select>
+        function mudarTipoRelatorio() {
+            const tipo = document.getElementById('tipo_relatorio').value;
+            const thead = document.querySelector('table thead tr');
+            const filtroCaminhaoDiv = document.getElementById('filtro_caminhao').closest('.col-md-3');
+
+            // Ajusta os cabeçalhos da tabela e visibilidade de filtros de acordo com a opção escolhida
+            if (tipo === 'geral') {
+                if (filtroCaminhaoDiv) filtroCaminhaoDiv.style.display = 'block';
+                thead.innerHTML = `
+                    <th class="ps-3">Data</th>
+                    <th>Caminhão / Motorista</th>
+                    <th>Beneficiário</th>
+                    <th>Litros Entregues</th>
+                    <th class="text-end pe-3">Status</th>
+                `;
+            } else if (tipo === 'beneficiario') {
+                if (filtroCaminhaoDiv) filtroCaminhaoDiv.style.display = 'none'; // Esconde camião se não for usado neste relatório
+                thead.innerHTML = `
+                    <th class="ps-3">Beneficiário</th>
+                    <th>Endereço</th>
+                    <th class="text-center">Total Entregas</th>
+                    <th class="text-end pe-3">Total Litros</th>
+                `;
+            } else if (tipo === 'caminhao') {
+                if (filtroCaminhaoDiv) filtroCaminhaoDiv.style.display = 'none';
+                thead.innerHTML = `
+                    <th class="ps-3">Caminhão</th>
+                    <th class="text-center">Carregamentos</th>
+                    <th class="text-center">Entregas</th>
+                    <th class="text-end pe-3">Total Litros</th>
+                `;
+            }
+
+            // Limpa a tabela ao trocar de relatório
+            document.getElementById('tabelaRelatorio').innerHTML = `
+                <tr><td colspan="5" class="text-center py-4 text-muted">Selecione os filtros acima e clique em "Gerar Relatório".</td></tr>
+            `;
+        }
+    
+        // Função principal chamada pelo botão "Gerar Relatório"
+        window.obterRelatorio = async function() {
+            const tipo = document.getElementById('tipo_relatorio').value;
+            const dataInicio = document.getElementById('data_inicio')?.value || '';
+            const dataFim = document.getElementById('data_fim')?.value || '';
+            const caminhaoId = document.getElementById('filtro_caminhao')?.value || '';
+    
+            const params = new URLSearchParams();
+            if (dataInicio) params.append('data_inicio', dataInicio);
+            if (dataFim) params.append('data_fim', dataFim);
+            if (tipo === 'geral' && caminhaoId) params.append('caminhao_id', caminhaoId);
+    
+            // Define a rota correta baseada no tipo selecionado
+            let endpoint = '/api/relatorios';
+            if (tipo === 'beneficiario') endpoint = '/api/relatorios/por-beneficiario';
+            if (tipo === 'caminhao') endpoint = '/api/relatorios/por-caminhao';
+
+            try {
+                const response = await fetch(`${baseURL}${endpoint}?${params.toString()}`);
+                if (!response.ok) throw new Error('Erro na resposta do servidor.');
+    
+                const dados = await response.json();
+                preencherTabelaDinamica(dados, tipo);
+            } catch (error) {
+                console.error('Erro ao carregar relatórios:', error);
+                document.getElementById('tabelaRelatorio').innerHTML = `
+                    <tr><td colspan="5" class="text-center text-danger py-4">Erro ao ligar ao servidor ou carregar dados.</td></tr>
+                `;
+            }
+        };
+    
+        function preencherTabelaDinamica(dados, tipo) {
+            const tbody = document.getElementById('tabelaRelatorio');
+            if (!tbody) return;
+    
+            tbody.innerHTML = '';
+    
+            if (!dados || dados.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="text-center text-muted py-4">Nenhum registo encontrado.</td></tr>`;
+                return;
+            }
+    
+            dados.forEach(item => {
+                const tr = document.createElement('tr');
+
+                if (tipo === 'geral') {
+                    tr.innerHTML = `
+                        <td class="ps-3">${item.data || ''}</td>
+                        <td>${item.caminhao || ''}</td>
+                        <td>${item.beneficiario || ''}</td>
+                        <td><strong>${Number(item.litros || 0).toLocaleString('pt-BR')} L</strong></td>
+                        <td class="text-end pe-3"><span class="badge bg-success bg-opacity-75 text-white">${item.status || 'Concluído'}</span></td>
+                    `;
+                } else if (tipo === 'beneficiario') {
+                    tr.innerHTML = `
+                        <td class="ps-3 fw-bold">${item.beneficiario || ''}</td>
+                        <td>${item.endereco || ''}</td>
+                        <td class="text-center">${item.total_entregas || 0}</td>
+                        <td class="text-end pe-3"><strong>${Number(item.total_litros || 0).toLocaleString('pt-BR')} L</strong></td>
+                    `;
+                } else if (tipo === 'caminhao') {
+                    tr.innerHTML = `
+                        <td class="ps-3 fw-bold">${item.caminhao || ''}</td>
+                        <td class="text-center">${item.total_carregamentos || 0}</td>
+                        <td class="text-center">${item.total_entregas || 0}</td>
+                        <td class="text-end pe-3"><strong>${Number(item.total_litros || 0).toLocaleString('pt-BR')} L</strong></td>
+                    `;
+                }
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Função para Exportar PDF Dinâmico
+        function exportarPDF() {
+            const tipo = document.getElementById('tipo_relatorio').value;
+            const dataInicio = document.getElementById('data_inicio')?.value || '';
+            const dataFim = document.getElementById('data_fim')?.value || '';
+            const caminhaoId = document.getElementById('filtro_caminhao')?.value || '';
+
+            const params = new URLSearchParams();
+            if (dataInicio) params.append('data_inicio', dataInicio);
+            if (dataFim) params.append('data_fim', dataFim);
+            if (tipo === 'geral' && caminhaoId) params.append('caminhao_id', caminhaoId);
+
+            let rota = '/api/relatorios/pdf';
+            if (tipo === 'beneficiario') rota = '/api/relatorios/por-beneficiario/pdf';
+            if (tipo === 'caminhao') rota = '/api/relatorios/por-caminhao/pdf';
+
+            window.open(`${baseURL}${rota}?${params.toString()}`, '_blank');
+        }
+
+        // Função para Exportar Excel Dinâmico
+        function exportarExcel() {
+            const tipo = document.getElementById('tipo_relatorio').value;
+            const dataInicio = document.getElementById('data_inicio')?.value || '';
+            const dataFim = document.getElementById('data_fim')?.value || '';
+            const caminhaoId = document.getElementById('filtro_caminhao')?.value || '';
+
+            const params = new URLSearchParams();
+            if (dataInicio) params.append('data_inicio', dataInicio);
+            if (dataFim) params.append('data_fim', dataFim);
+            if (tipo === 'geral' && caminhaoId) params.append('caminhao_id', caminhaoId);
+
+            let rota = '/api/relatorios/excel';
+            if (tipo === 'beneficiario') rota = '/api/relatorios/por-beneficiario/excel';
+            if (tipo === 'caminhao') rota = '/api/relatorios/por-caminhao/excel';
+
+            window.open(`${baseURL}${rota}?${params.toString()}`, '_blank');
+        }
+    </script>
+    
+</body>
+</html>

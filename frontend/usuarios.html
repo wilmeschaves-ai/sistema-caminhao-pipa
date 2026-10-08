@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Usuários - Sistema Pipa</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-light">
+
+    <!-- Barra de Navegação Superior -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm mb-4">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold" href="index.html">
+                <i class="fas fa-truck-moving me-2"></i> Gestão de Caminhão Pipa
+            </a>
+            <div class="d-flex">
+                <a href="index.html" class="btn btn-light btn-sm fw-semibold text-primary">
+                    <i class="fas fa-home me-1"></i> Início
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Conteúdo Principal -->
+    <div class="container py-4">
+        <div class="row align-items-center mb-4">
+            <div class="col">
+                <h2 class="fw-bold text-dark"><i class="fas fa-users-gear me-2 text-primary"></i> Gestão de Usuários</h2>
+                <p class="text-muted">Adicione, edite ou remova operadores e administradores do sistema.</p>
+            </div>
+            <div class="col text-end">
+                <button class="btn btn-primary rounded-pill px-4 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalUsuario" onclick="prepararCadastro()">
+                    <i class="fas fa-user-plus me-1"></i> Novo Usuário
+                </button>
+            </div>
+        </div>
+
+        <!-- Tabela de Usuários -->
+        <div class="card border-0 shadow-sm rounded-4 p-3">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>ID</th>
+                                <th>Foto</th>
+                                <th>Nome</th>
+                                <th>Login</th>
+                                <th>Perfil</th>
+                                <th>Criado em</th>
+                                <th class="text-end">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelaUsuarios">
+                            <!-- Preenchido via JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Cadastro / Edição -->
+    <div class="modal fade" id="modalUsuario" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content rounded-4 border-0 shadow">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title fw-bold" id="modalTitulo"><i class="fas fa-user-plus me-2"></i> Novo Usuário</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="formUsuario">
+                        <input type="hidden" id="usuarioId">
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Nome Completo</label>
+                            <input type="text" class="form-control" id="nome" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Login</label>
+                            <input type="text" class="form-control" id="login" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Senha</label>
+                            <input type="password" class="form-control" id="senha" placeholder="Deixe em branco para manter a atual na edição" autocomplete="new-password">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Perfil</label>
+                            <select class="form-select" id="perfil" required>
+                                <option value="Operador">Operador</option>
+                                <option value="Administrador">Administrador</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Foto de Perfil</label>
+                            <input type="file" class="form-control" id="foto" accept="image/*">
+                        </div>                        
+                        <div class="text-end">
+                            <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary rounded-pill px-4">Salvar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Ficheiro JavaScript Externo -->
+    <script src="js/usuarios.js"></script>
+</body>
+</html>

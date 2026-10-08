@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboards - Controle de Pipa</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome para Ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js para os gráficos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-light">
+
+    <!-- Navbar / Cabeçalho Unificado -->
+    <nav class="navbar navbar-dark bg-primary px-4 py-3 shadow-sm d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center">
+            <img src="./images/avatar.jpg" alt="Logo" style="height: 42px; width: auto;" class="me-3 bg-white p-1 rounded">
+            <span class="text-white fw-bold fs-5 d-none d-lg-inline">Gestão de Caminhão Pipa - Prefeitura Municipal de Jaramataia - AL</span>
+        </div>
+        
+        <div class="d-none d-md-flex align-items-center gap-3">
+            <a href="index.html" class="text-white text-decoration-none small fw-semibold"><i class="fas fa-home me-1"></i> Início</a>
+            <a href="caminhoes.html" class="text-white text-decoration-none small fw-semibold"><i class="fas fa-truck me-1"></i> Caminhões</a>
+            <a href="motoristas.html" class="text-white text-decoration-none small fw-semibold"><i class="fas fa-id-card me-1"></i> Motoristas</a>
+            <a href="beneficiarios.html" class="text-white text-decoration-none small fw-semibold"><i class="fas fa-users me-1"></i> Beneficiários</a>
+            <a href="carregamentos.html" class="text-white text-decoration-none small fw-semibold"><i class="fas fa-water me-1"></i> Carregamento</a>
+            <a href="entregas.html" class="text-white text-decoration-none small fw-semibold"><i class="fas fa-hand-holding-water me-1"></i> Entregas</a>
+            <a href="relatorios.html" class="text-white text-decoration-none small fw-semibold text-warning"><i class="fas fa-file-alt me-1"></i> Relatórios</a>
+            <a href="dashboards.html" class="text-white text-decoration-none small fw-semibold text-warning"><i class="fas fa-chart-pie me-1"></i> Dashboards</a>
+        </div>
+
+        <div class="d-flex align-items-center">
+            <a href="index.html" class="btn btn-outline-light btn-sm rounded-pill px-3 shadow-sm"><i class="fas fa-arrow-left me-1"></i> Painel</a>
+        </div>
+    </nav>
+
+    <!-- Conteúdo Principal -->
+    <div class="container my-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2 class="fw-bold text-dark"><i class="fas fa-chart-pie me-2" style="color: #e05624;"></i>Indicadores e Dashboards</h2>
+                <p class="text-muted mb-0">Visão geral e estatísticas de volume de água entregues à população.</p>
+            </div>
+        </div>
+
+        <!-- 🔍 Barra de Filtro de Período Global -->
+        <div class="card border-0 shadow-sm rounded-4 p-3 mb-4 bg-white">
+            <form id="filterForm" class="row g-3 align-items-end">
+                <div class="col-md-4">
+                    <label for="dataInicio" class="form-label small fw-semibold text-muted">Data Inicial</label>
+                    <input type="date" class="form-control form-control-sm rounded-3" id="dataInicio">
+                </div>
+                <div class="col-md-4">
+                    <label for="dataFim" class="form-label small fw-semibold text-muted">Data Final</label>
+                    <input type="date" class="form-control form-control-sm rounded-3" id="dataFim">
+                </div>
+                <div class="col-md-4 d-flex gap-2">
+                    <button type="submit" class="btn btn-primary btn-sm w-100 rounded-3 shadow-sm"><i class="fas fa-filter me-1"></i> Filtrar</button>
+                    <button type="button" id="btnLimpar" class="btn btn-outline-secondary btn-sm w-100 rounded-3"><i class="fas fa-eraser me-1"></i> Limpar</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Cards de Estatísticas Rápidas -->
+        <div class="row g-4 mb-4">
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm rounded-4 p-3 border-start border-4 border-info">
+                    <div class="card-body">
+                        <span class="text-muted small fw-semibold">Total de Água Distribuída</span>
+                        <h3 class="fw-bold text-dark mt-1" id="totalAgua">A carregar...</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm rounded-4 p-3 border-start border-4" style="border-color: #6f42c1 !important;">
+                    <div class="card-body">
+                        <span class="text-muted small fw-semibold">Cisternas Atendidas</span>
+                        <h3 class="fw-bold text-dark mt-1" id="totalFamilias">A carregar...</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm rounded-4 p-3 border-start border-4 border-success">
+                    <div class="card-body">
+                        <span class="text-muted small fw-semibold">Viagens Realizadas</span>
+                        <h3 class="fw-bold text-dark mt-1" id="totalViagens">A carregar...</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção de Gráficos -->
+        <div class="row g-4">
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm rounded-4 p-4">
+                    <h5 class="fw-bold text-dark mb-3"><i class="fas fa-chart-line me-2 text-primary"></i>Volume Entregue por Período</h5>
+                    <canvas id="graficoVolume" height="130"></canvas>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm rounded-4 p-4">
+                    <h5 class="fw-bold text-dark mb-3"><i class="fas fa-chart-pie me-2" style="color: #e05624;"></i>Distribuição por Frota</h5>
+                    <canvas id="graficoFrota" height="220"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let chartVolumeInstance = null;
+        let chartFrotaInstance = null;
+
+        async function carregarDashboard(dataInicio = '', dataFim = '') {
+            try {
+                let url = 'http://localhost:3000/api/dashboards/stats';
+                const params = new URLSearchParams();
+                if (dataInicio) params.append('data_inicio', dataInicio);
+                if (dataFim) params.append('data_fim', dataFim);
+                
+                if (params.toString()) {
+                    url += `?${params.toString()}`;
+                }
+
+                const response = await fetch(url);
+                if (!response.ok) throw new Error('Erro ao buscar dados do servidor');
+                
+                const data = await response.json();
+
+                // 1. Atualizar os Cartões
+                document.getElementById('totalAgua').textContent = `${Number(data.totalAgua || 0).toLocaleString('pt-BR')} L`;
+                document.getElementById('totalFamilias').textContent = `${data.totalFamilias || 0} Famílias`;
+                document.getElementById('totalViagens').textContent = `${data.totalViagens || 0} Viagens`;
+
+                // 2. Gráfico de Volume Mensal / Período
+                const ctxVol = document.getElementById('graficoVolume').getContext('2d');
+                const labelsVol = data.volumeMensal.map(item => item.mes);
+                const valoresVol = data.volumeMensal.map(item => item.total);
+
+                if (chartVolumeInstance) chartVolumeInstance.destroy();
+
+                chartVolumeInstance = new Chart(ctxVol, {
+                    type: 'line',
+                    data: {
+                        labels: labelsVol.length ? labelsVol : ['Sem registos'],
+                        datasets: [{
+                            label: 'Litros Entregues',
+                            data: valoresVol.length ? valoresVol : [0],
+                            borderColor: '#146c94',
+                            backgroundColor: 'rgba(20, 108, 148, 0.1)',
+                            fill: true,
+                            tension: 0.3
+                        }]
+                    }
+                });
+
+                // 3. Gráfico de Distribuição por Frota
+                const ctxFrota = document.getElementById('graficoFrota').getContext('2d');
+                const labelsFrota = data.distribuicaoFrota.map(c => `${c.modelo} (${c.placa})`);
+                const valoresFrota = data.distribuicaoFrota.map(c => c.total_litros);
+
+                if (chartFrotaInstance) chartFrotaInstance.destroy();
+
+                chartFrotaInstance = new Chart(ctxFrota, {
+                    type: 'doughnut',
+                    data: {
+                        labels: labelsFrota.length ? labelsFrota : ['Sem camiões'],
+                        datasets: [{
+                            data: valoresFrota.length ? valoresFrota : [1],
+                            backgroundColor: ['#0d6efd', '#198754', '#ffc107', '#dc2626', '#6f42c1']
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'bottom'
+                            }
+                        }
+                    }
+                });
+
+            } catch (error) {
+                console.error('Erro ao carregar dados do dashboard:', error);
+            }
+        }
+
+        // Carregar dados iniciais ao abrir a página
+        document.addEventListener('DOMContentLoaded', () => {
+            carregarDashboard();
+
+            // Evento do formulário de filtro
+            document.getElementById('filterForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const dataInicio = document.getElementById('dataInicio').value;
+                const dataFim = document.getElementById('dataFim').value;
+                carregarDashboard(dataInicio, dataFim);
+            });
+
+            // Botão Limpar Filtro
+            document.getElementById('btnLimpar').addEventListener('click', () => {
+                document.getElementById('dataInicio').value = '';
+                document.getElementById('dataFim').value = '';
+                carregarDashboard();
+            });
+        });
+    </script>
+</body>
+</html>

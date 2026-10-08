@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Beneficiários - Controle de Pipa</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome para Ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Estilos personalizados (Marca d'água) -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-light">
+
+    <!-- Navbar / Cabeçalho Unificado -->
+    <nav class="navbar navbar-dark bg-primary px-4 py-3 shadow-sm d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center">
+            <!-- A sua logo personalizada -->
+            <img src="./images/avatar.jpg" alt="Logo" style="height: 42px; width: auto;" class="me-3 bg-white p-1 rounded">
+            <span class="text-white fw-bold fs-5 d-none d-lg-inline">Gestão de Caminhão Pipa - Prefeitura Municipal de Jaramataia - AL</span>
+        </div>
+        
+        <!-- Links rápidos de navegação entre módulos -->
+        <div class="d-none d-md-flex align-items-center gap-3">
+            <a href="index.html" class="text-white text-decoration-none small fw-semibold"><i class="fas fa-home me-1"></i> Início</a>
+            <a href="caminhoes.html" class="text-white text-decoration-none small fw-semibold"><i class="fas fa-truck me-1"></i> Caminhões</a>
+            <a href="motoristas.html" class="text-white text-decoration-none small fw-semibold"><i class="fas fa-id-card me-1"></i> Motoristas</a>
+            <a href="beneficiarios.html" class="text-white text-decoration-none small fw-semibold text-warning"><i class="fas fa-users me-1"></i> Beneficiários</a>
+            <a href="carregamentos.html" class="text-white text-decoration-none small fw-semibold"><i class="fas fa-water me-1"></i> Carregamento</a>
+            <a href="entregas.html" class="text-white text-decoration-none small fw-semibold"><i class="fas fa-hand-holding-water me-1"></i> Entregas</a>
+            <a href="relatorios.html" class="text-white text-decoration-none small fw-semibold text-warning"><i class="fas fa-file-alt me-1"></i> Relatórios</a>
+
+            <a href="dashboards.html" class="text-white text-decoration-none small fw-semibold text-warning"><i class="fas fa-chart-pie me-1"></i> Dashboards</a>
+
+
+        </div>
+
+        <div class="d-flex align-items-center">
+            <a href="index.html" class="btn btn-outline-light btn-sm rounded-pill px-3 shadow-sm"><i class="fas fa-arrow-left me-1"></i> Painel</a>
+        </div>
+    </nav>
+
+    <!-- Conteúdo Principal -->
+    <div class="container my-4">
+        
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2 class="fw-bold text-dark"><i class="fas fa-users text-warning me-2"></i>Gestão de Beneficiários</h2>
+                <p class="text-muted mb-0">Cadastre e gerencie os munícipes e moradas do sistema de abastecimento.</p>
+            </div>
+            <button class="btn btn-warning text-dark fw-semibold shadow-sm rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#modalBeneficiario">
+                <i class="fas fa-plus me-1"></i> Novo Beneficiário
+            </button>
+        </div>
+
+        <!-- Tabela de Beneficiários -->
+        <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="ps-3">Nome</th>
+                                <th>Documento (CPF/CNPJ)</th>
+                                <th>Telefone</th>
+                                <th>Endereço</th>
+                                <th class="text-end pe-3">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelaBeneficiarios">
+                            <!-- Os dados serão inseridos dinamicamente via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Cadastro / Novo Beneficiário -->
+    <div class="modal fade" id="modalBeneficiario" tabindex="-1" aria-labelledby="modalBeneficiarioLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content rounded-4 border-0 shadow">
+                <form id="formBeneficiario">
+                    <div class="modal-header bg-warning text-dark">
+                        <h5 class="modal-title fw-bold" id="modalBeneficiarioLabel"><i class="fas fa-user-plus me-2"></i>Novo Beneficiário</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                    </div>
+                    <div class="modal-body p-4">
+                        <div class="row g-3">
+                            
+                            <div class="col-md-6">
+                                <label for="nome" class="form-label fw-semibold">Nome Completo *</label>
+                                <input type="text" class="form-control" id="nome" required placeholder="Ex: Maria da Silva">
+                            </div>
+
+                            <div class="col-md-3">
+                                <label for="documento" class="form-label fw-semibold">Documento</label>
+                                <input type="text" class="form-control" id="documento" placeholder="CPF ou CNPJ">
+                            </div>
+
+                            <div class="col-md-3">
+                                <label for="telefone" class="form-label fw-semibold">Telefone</label>
+                                <input type="text" class="form-control" id="telefone" placeholder="(82) 99999-9999">
+                            </div>
+
+                            <div class="col-md-3">
+                                <label for="cep" class="form-label fw-semibold">CEP</label>
+                                <input type="text" class="form-control" id="cep" placeholder="00000-000">
+                            </div>
+
+                            <div class="col-md-7">
+                                <label for="logradouro" class="form-label fw-semibold">Logradouro</label>
+                                <input type="text" class="form-control" id="logradouro" placeholder="Rua, Avenida, etc.">
+                            </div>
+
+                            <div class="col-md-2">
+                                <label for="numero" class="form-label fw-semibold">Número</label>
+                                <input type="text" class="form-control" id="numero" placeholder="Nº">
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="complemento" class="form-label fw-semibold">Complemento</label>
+                                <input type="text" class="form-control" id="complemento" placeholder="Apto, Bloco, etc.">
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="bairro" class="form-label fw-semibold">Bairro</label>
+                                <input type="text" class="form-control" id="bairro" placeholder="Nome do Bairro">
+                            </div>
+
+                            <div class="col-md-3">
+                                <label for="cidade" class="form-label fw-semibold">Cidade</label>
+                                <input type="text" class="form-control" id="cidade" value="Jaramataia">
+                            </div>
+
+                            <div class="col-md-1">
+                                <label for="estado" class="form-label fw-semibold">UF</label>
+                                <input type="text" class="form-control" id="estado" value="AL">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="foto_residencia" class="form-label fw-semibold">Foto da Residência</label>
+                                <input type="file" class="form-control" id="foto_residencia" accept="image/*" capture="environment">
+                                <div class="form-text">Tire uma foto ou carregue a imagem da fachada da casa.</div>
+                            </div>                            
+
+                        </div>
+                    </div>
+                    <div class="modal-footer bg-light">
+                        <button type="submit" class="btn btn-warning text-dark fw-semibold rounded-pill px-4"><i class="fas fa-save me-1"></i> Salvar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../frontend/js/global.js"></script>
+    <!-- Script do Módulo -->
+    <script src="../frontend/js/beneficiarios.js"></script>
+    <!-- Script para fechar o modal automaticamente após o envio bem-sucedido -->
+    <script>
+        const originalFormHandler = document.getElementById('formBeneficiario');
+        if (originalFormHandler) {
+            originalFormHandler.addEventListener('submit', () => {
+                const modalEl = document.getElementById('modalBeneficiario');
+                const modalInstance = bootstrap.Modal.getInstance(modalEl);
+                if (modalInstance) modalInstance.hide();
+            });
+        }
+    </script>
+</body>
+</html>
